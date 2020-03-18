@@ -1,6 +1,6 @@
 const statement = require('./statement');
 
-test('本に乗っていたサンプル例を実行（機能性のテストはしていない）', () => {
+test('ステートメントが出力できることその１（本に載っているサンプル例）', () => {
   const plays = {
     hamlet: { name: 'Hamlet', type: 'tragedy' },
     'as-like': { name: 'As You Like It', type: 'comedy' },
@@ -37,29 +37,7 @@ You earned 47 credits
   expect(result).toEqual(expected);
 });
 
-
-test('例外が発生するケース（機能性のテストはしてない）', () => {
-  const plays = {
-    hamlet: { name: 'Hamlet', type: 'badType' }, // badType
-  };
-
-  const invoice = {
-    customer: 'BigCo',
-    performances: [
-      {
-        playID: 'hamlet',
-        audience: 55,
-      },
-    ],
-  };
-
-  expect(() => {
-    statement(invoice, plays);
-  }).toThrow('unknown type: badType');
-});
-
-
-test('カバレッジ上げる用（機能性のテストはしてない）', () => {
+test('ステートメントが出力できることその２（本とは異なるパターン）', () => {
   const plays = {
     hamlet: { name: 'Hamlet', type: 'tragedy' },
     'as-like': { name: 'As You Like It', type: 'comedy' },
@@ -94,4 +72,25 @@ You earned 14 credits
 `;
   const result = statement(invoice, plays);
   expect(result).toEqual(expected);
+});
+
+
+test('typeが不正で例外が発生するケース', () => {
+  const plays = {
+    hamlet: { name: 'Hamlet', type: 'badType' }, // badType
+  };
+
+  const invoice = {
+    customer: 'BigCo',
+    performances: [
+      {
+        playID: 'hamlet',
+        audience: 55,
+      },
+    ],
+  };
+
+  expect(() => {
+    statement(invoice, plays);
+  }).toThrow('unknown type: badType');
 });
